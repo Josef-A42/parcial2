@@ -102,3 +102,41 @@ for (var i = 0; i < orbitArray.length; i++) {
     plotPixel(orbitArray[i].x, orbitArray[i].y, "#ffff00");
 }
 
+// draw a regular polygon using bresenham lines
+function drawPolygon(cx, cy, sides, radius, rotation, color) {
+    var points = [];
+    for (var i = 0; i < sides; i++) {
+        var angle = rotation + (2 * Math.PI * i) / sides;
+        var x = Math.round(cx + radius * Math.cos(angle));
+        var y = Math.round(cy + radius * Math.sin(angle));
+        points.push({ x: x, y: y });
+    }
+    for (var i = 0; i < points.length; i++) {
+        var next = (i + 1) % points.length;
+        drawLineBresenham(points[i].x, points[i].y, points[next].x, points[next].y, color);
+    }
+}
+
+function randomColor() {
+    var r = Math.floor(Math.random() * 256);
+    var g = Math.floor(Math.random() * 256);
+    var b = Math.floor(Math.random() * 256);
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
+
+// place random polygons on the border of the circle
+function drawRandomBorderPolygons(circleX, circleY, circleR) {
+    var count = Math.floor(Math.random() * 8) + 1; // 1 to 8 polygons
+    var sides = Math.floor(Math.random() * 8) + 3; // 3 to 10 sides, same for all in this run
+    for (var i = 0; i < count; i++) {
+        var angle = Math.random() * 2 * Math.PI;
+        var px = circleX + circleR * Math.cos(angle);
+        var py = circleY + circleR * Math.sin(angle);
+        var polyRadius = Math.floor(Math.random() * 15) + 10; // 10 to 25
+        var rotation = Math.random() * 2 * Math.PI;
+        drawPolygon(px, py, sides, polyRadius, rotation, randomColor());
+    }
+}
+
+drawRandomBorderPolygons(400, 300, 100);
+
