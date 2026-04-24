@@ -83,3 +83,22 @@ drawLineBresenham(400, 300, 470, 370);   // diagonal
 drawLineBresenham(400, 300, 330, 370);   // diagonal
 drawLineBresenham(400, 300, 330, 230);   // diagonal
 
+// orbital position calculations
+function calculateOrbitalPositions(cx, cy, r, steps) {
+    var positions = [];
+    for (var i = 0; i < steps; i++) {
+        var angle = (2 * Math.PI * i) / steps;
+        var x = cx + r * Math.cos(angle);
+        var y = cy + r * Math.sin(angle);
+        positions.push({ x: Math.round(x), y: Math.round(y) });
+    }
+    return positions;
+}
+
+// example usage: calculate positions and draw them
+var orbitArray = calculateOrbitalPositions(400, 300, 100, 24);
+
+for (var i = 0; i < orbitArray.length; i++) {
+    plotPixel(orbitArray[i].x, orbitArray[i].y, "#ffff00");
+}
+
